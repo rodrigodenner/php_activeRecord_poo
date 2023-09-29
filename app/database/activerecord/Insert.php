@@ -1,0 +1,35 @@
+<?php
+
+namespace app\database\activerecord;
+
+use app\models\connection\Connection;
+use app\database\interfaces\ActiveRecordInterface;
+use app\database\interfaces\ActiveRecordExecuteInterface;
+
+
+class Insert implements ActiveRecordExecuteInterface
+{
+  public function execute(ActiveRecordInterface $activeRecordInterface)
+  {
+   try {
+    $query = $this->createQuery($activeRecordInterface);
+    $connection = Connection::connect();
+    $prepare = $connection->prepare($query);
+
+    return $prepare->execute($activeRecordInterface->getAttributes());
+
+   } catch (\Throwable $th) {
+    formatExcetion($th);
+   }
+  }
+
+  private function createQuery(ActiveRecordInterface $activeRecordInterface)
+  {
+    $sql = "INSERT INTO {$activeRecordInterface->getTable()} ( ";
+    $sql.=implode(',',array_keys($activeRecordInterface->getAttributes())).') values (';
+    $sql.=':'. implode(',:',array_keys($activeRecordInterface->getAttributes())).')';
+    
+    return $sql;
+  }
+
+}

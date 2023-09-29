@@ -1,0 +1,19 @@
+{
+    "name": "rodrigo/08_php_active_record",
+    "description": "curso_de_activer_records",
+    "authors": [
+        {
+            "name": "Rodrigo Denner",
+            "email": "109491106+rodrigodenner@users.noreply.github.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "app\\":"app"
+        },
+        "files": [
+            "app/helpers/helpers.php"
+        ]
+    }
+}
